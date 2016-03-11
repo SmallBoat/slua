@@ -1,38 +1,63 @@
 #slua
-Fastest Unity lua binding via static code generating.
+Fastest lua binding via static code generating for Unity3D or mono
 
-QQ group: 15647305 (in chinese)
+Website: http://www.slua.net
 
-Support QA: http://www.unityqa.com/ (in chinese)
+Mail List: [Subscribe](http://www.freelists.org/list/slua) (in English only)
 
-Mail to : sineysan#163.com (both of chinese/english)
+QQ group: 15647305 (in Chinese)
 
+Mail to : sineysan#163.com (both of Chinese/English)
+
+## Continuous Integration Build
+
+| Build | Platform | Type    | Status  |
+| ---   | ---      | ---     | ---     |
+| *slua-unity* | None | None | None |
+| **slua-standalone** | Linux   | Test,Build | [![Build Status](https://travis-ci.org/mr-kelly/slua.svg)](https://travis-ci.org/mr-kelly/slua) |
+| **slua-standalone** | Windows | Test,Build,Deploy | [![Build status](https://ci.appveyor.com/api/projects/status/vokwhnu95lx5e8g3?svg=true)](https://ci.appveyor.com/project/mr-kelly/slua) |
 
 ##Release Download
 
 [here.](https://github.com/pangweiwei/slua/releases/latest)
 
+##Integrate with 3rd Lua Library
+
+Standard slua release doesn't contains any 3rd Lua library(like protobuf, lpeg etc), if you want to use this library, can visit this forked repo https://github.com/luzexi/slua, it focus slua on integrate with other 3rd library.
+
+##Demo with slua
+
+This repo https://github.com/lulersoft/ME_SLua based on slua for simple game framework.
+
+This repo https://github.com/yaukeywang/2DPlatformer-SLua demonstrate 2DPlatformer game using slua.
+
+This repo https://github.com/tenvick/hugula demonstrate Tetris game using slua.
+
 ##Help
 
-See inner demo for help or [Document](doc.md) (in chinese).
+See inner demo for help or [Document](../../wiki/中文帮助) (in chinese).
 
-##important
+##Important
 
-You need generated lua wrap file by your self:
+For running demo sucessful, you should generate lua wrap file by your self:
 
 Click menu, SLua->All->Make  generate all wrap file for your version of unity.
 
-***Had tested for Unity4.6.1/4.6.2/4.6.3/5.0***
+***Had tested for Unity4.6.1/4.6.2/4.6.3/5.0/5.1***
 
-##main feature
+##Main feature
 
 static code generating, no reflection, no extra gc alloc, very fast
+
+remote debugger
 
 full support iOS/iOS64, support il2cpp
 
 above 90% UnityEngine interface exported ( remove flash, platform dependented interface )
 
 100% UnityEngine.UI interface ( require Unity4.6+ )
+
+support standalone in mono without Unity3D
 
 support UnityEvent/UnityAction for event callback via lua function
 
@@ -42,13 +67,15 @@ support yield call
 
 support custom class exported
 
+support extension method
+
 export enum as integer
 
 return array as lua table
 
-using raw luajit, can be replaced with lua5.3/lua5.1, link with slua.c, if you switch to lua5.3, add LUA_5_3 macro in build setting.
+using raw luajit, can be replaced with lua5.3/lua5.1
 
-##usage
+##Usage
 
 copy Assets/Plugins Assets/Slua to your $Project$/Assets folder, you will see Slua menu, 
 
@@ -65,7 +92,7 @@ Slua/LuaObject contain pre-generated file for exported interface.
 Precompiled slua library in Plugins only included x86(32bit)/macosx(32bit)/iOS(armv7,armv7s,arm64)/Android(armv7-a) platform using luajit, you should compile other platform/lua5.1/luajit by yourself, see build.txt for help.
 
 
-## usage at a glance
+##Usage at a glance
 
 ~~~~~~~~~~lua
 
@@ -84,8 +111,7 @@ function main()
 	local btn = go:GetComponent("Button")
 	
 	-- get out parameter
-	local hitinfo = RaycastHit()
-	local ok,hitinfo = Physics.Raycast(Vector3(0,0,0),Vector3(0,0,1),hitinfo)
+	local ok,hitinfo = Physics.Raycast(Vector3(0,0,0),Vector3(0,0,1),Slua.out)
 	print("Physics Hitinfo",ok,hitinfo)
 	
 	-- foreach enumeratable object
@@ -132,7 +158,8 @@ end
 
 ~~~~~~~~~~
 
-##export custom class
+
+##Export custom class
 
 add CustomLuaClass attribute to your custom class, waiting for compile completed, click "SLua->Custom->Make", you will get interface file for lua.
 
@@ -145,7 +172,11 @@ public class HelloWorld   {
 
 ~~~~~~~~~~
 
-###benchmark
+##How to remote debug
+
+Wiki here(https://github.com/pangweiwei/slua/wiki/Remote-Debug).
+
+###Benchmark
 
 see http://www.sineysoft.com/post/164 for detail (in chinese), compared with ulua/raw mono.
 
